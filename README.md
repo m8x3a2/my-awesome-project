@@ -12,7 +12,4 @@ https://github.com/m8x3a2/my-awesome-project.git
 https://m8x3a2.github.io/my-awesome-project/
 
 
-https://m8x3a2.github.io/my-awesome-project/index.html
-
-
 [https://m8x3a2.github.io/my-awesome-project/src/index.html](https://m8x3a2.github.io/my-awesome-project/src/index.html)
