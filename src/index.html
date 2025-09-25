@@ -13,42 +13,50 @@
 
 <body>
     <!-- Шапка сайта -->
-    <header>
-        <a href="/">Логотип или название сайта</a>
-        <!-- Главное меню навигации -->
-        <nav>
-            <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="about.html">О нас</a></li>
-                <li><a href="contacts.html">Контакты</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header class="site-header">
+    <a class="site-header__brand" href="/">Логотип или название сайта</a>
+    <nav class="site-nav" aria-label="Основная навигация">
+        <ul class="site-nav__list">
+            <li class="site-nav__item"><a class="site-nav__link" href="index.html">Главная</a></li>
+            <li class="site-nav__item"><a class="site-nav__link" href="about.html">О нас</a></li>
+            <li class="site-nav__item"><a class="site-nav__link site-nav__link--cta" href="#contacts">Связаться</a></li>
+        </ul>
+    </nav>
+</header>
 
     <!-- Уникальное основное содержимое страницы -->
     <main>
-        <h1>Добро пожаловать на наш сайт!</h1>
+  <!-- Герой-секция с фоном -->
+  <section class="hero">
+    <h1>Добро пожаловать на наш сайт!</h1>
+    <p>Мы создаём лучшие решения для вас</p>
+  </section>
 
-        <!-- Секция 1 с якорем -->
-        <section id="services">
-            <h2>Наши услуги</h2>
-            <p>Описание предоставляемых услуг...</p>
-            <a href="#contacts">Связаться с нами</a> <!-- Якорная ссылка внутри страницы -->
-        </section>
+  <!-- Остальной существующий контент -->
+  <section id="services">...</section>
 
-        <!-- Секция 2 с якорем -->
-        <section id="portfolio">
-            <h2>Портфолио</h2>
-            <p>Примеры наших работ...</p>
-        </section>
+  <!-- Портфолио с картинкой -->
+  <section id="portfolio">
+    <h2>Портфолио</h2>
+    <p>Примеры наших работ...</p>
+    <img src="../assets/1.jpg" alt="Пример работы 1" width="640" height="360" loading="lazy">
+  </section>
 
-        <!-- Секция 3 с якорем -->
-        <section id="contacts">
-            <h2>Контактная информация</h2>
-            <p>Наши контакты...</p>
-            <a href="contacts.html">Подробнее</a> <!-- Ссылка на отдельную страницу -->
-        </section>
-    </main>
+  <!-- Видео Rutube -->
+  <section>
+    <h2>Наше видео</h2>
+    <div class="media">
+      <iframe
+        src="https://rutube.ru/play/embed/a0cedb5dd0cacc9e40825c20ed709f32"
+        title="Видео о нашей компании"
+        allow="clipboard-write; autoplay"
+        allowFullScreen>
+      </iframe>
+    </div>
+  </section>
+
+  <section id="contacts">...</section>
+</main>
 
     <!-- Подвал сайта -->
     <footer>
@@ -86,6 +94,24 @@
             </div>
         </form>
     </dialog>
+    <!-- Переключатель темы -->
+<button class="theme-toggle" type="button" aria-pressed="false">Тема</button>
+
+<script>
+const KEY='theme', btn=document.querySelector('.theme-toggle');
+const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+if(localStorage.getItem(KEY)==='dark' || (!localStorage.getItem(KEY) && prefersDark)){
+  document.body.classList.add('theme-dark');
+  btn?.setAttribute('aria-pressed','true');
+}
+
+btn?.addEventListener('click', ()=>{
+  const isDark=document.body.classList.toggle('theme-dark');
+  btn.setAttribute('aria-pressed', String(isDark));
+  localStorage.setItem(KEY, isDark ? 'dark' : 'light');
+});
+</script>
 </body>
 
 </html>
