@@ -1,41 +1,276 @@
-/* БАЗА: читаемость и предсказуемость размеров */
+/* === 1.2 Токены (дизайн-система) === */
+:root {
+  color-scheme: light;
+  /* Цвета */
+  --color-bg: #fff;
+  --color-fg: #0b0b0b;
+  --color-muted: #666;
+  --color-primary: #0a84ff;
+  --color-danger: #b00020;
+  /* Типографика */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Отступы */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  /* Скругления и тени */
+  --radius: 12px;
+  --shadow: 0 1px 2px rgba(0,0,0,.08), 0 8px 24px rgba(0,0,0,.08);
+}
+
+/* Тёмная тема */
+body.theme-dark {
+  color-scheme: dark;
+  --color-bg: #0b0b0b;
+  --color-fg: #f5f5f5;
+  --color-muted: #aaa;
+  --color-primary: #6aa2ff;
+}
+body.theme-dark .site-header {
+  background: rgba(119, 133, 161, 0.9); /* Тот же сине-голубой */
+}
+
+/* === 1.5 Reset-минимум === */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial,
-sans-serif; line-height: 1.5; }
-/* Формы: размеры, отступы, визуальный порядок */
-label { display: block; margin: 0.5rem 0 0.25rem; }
+
+/* === 1.6 Базовая типографика и ритм === */
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  background-image: url('../assets/fon20.jpg'); /* Фон всего сайта */
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.container {
+  width: min(100% - 2 * var(--space-4), 1120px);
+  margin-inline: auto;
+}
+
+.section { padding-block: var(--space-5); }
+.section_title { margin: 0 0 var(--space-3); }
+
+/* Изображения и медиа */
+img, video { max-width: 100%; height: auto; display: block; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+/* === 3. БЭМ-блоки === */
+
+/* 3.1 Шапка и навигация */
+.site-header {
+  background: rgba(255,255,255,0.9);
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-muted);
+}
+
+.site-header_brand {
+  font-weight: bold;
+  color: var(--color-fg);
+  text-decoration: none;
+}
+
+.site-nav_list {
+  display: flex;
+  gap: var(--space-3);
+  list-style: none;
+  padding: 0;
+  margin: var(--space-3) 0 0;
+}
+
+.site-nav_link {
+  color: var(--color-fg);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.site-nav_link:hover,
+.site-nav_link:focus-visible {
+  background: var(--color-primary);
+  color: white;
+  outline: none;
+}
+
+.site-nav_link[aria-current="page"] {
+  background: var(--color-muted);
+  color: white;
+}
+
+/* 3.2 Хлебные крошки */
+.breadcrumbs {
+  padding: var(--space-3) 0;
+  font-size: 0.9em;
+}
+
+.breadcrumbs a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.breadcrumbs span { color: var(--color-muted); }
+
+/* 3.3 Секции и якоря */
+html { scroll-behavior: smooth; }
+
+.section:target {
+  outline: 2px dashed var(--color-primary);
+  outline-offset: 4px;
+  border-radius: var(--radius);
+}
+
+/* 3.4 Форма и модалка */
+.form { max-width: 480px; }
+.form_group { margin-bottom: var(--space-3); }
+
+label { 
+  display: block; 
+  margin: 0.5rem 0 0.25rem; 
+  font-weight: bold;
+}
+
 input, select, textarea, button {
- width: 100%;
- max-width: 480px;
- padding: .5rem .75rem;
- border: 1px solid #c8c8c8;
- border-radius: 8px;
- background: #fff;
+  width: 100%;
+  max-width: 480px;
+  padding: .5rem .75rem;
+  border: 1px solid #c8c8c8;
+  border-radius: 8px;
+  background: #fff;
 }
-/* Кнопка по умолчанию */
+
 button, [type="submit"] {
- background: #0a84ff;
- color: #fff;
- border: none;
- cursor: pointer;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-3);
 }
-/* Состояния: клавиатура/мышь/ошибки */
+
 :where(input, select, textarea, button):focus-visible {
- outline: 2px solid #0a84ff; outline-offset: 2px;
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
+
 button:hover { filter: brightness(0.95); }
+
 :disabled, [aria-disabled="true"] { opacity: .6; cursor: not-allowed; }
-/* Подсветка ошибочных полей (установите aria-invalid="true") */
-[aria-invalid="true"] { border-color: #b00020; }
+
+[aria-invalid="true"] { 
+  border-color: var(--color-danger); 
+  background: #ffe6e6;
+}
 
 .form-actions {
-    display: flex;
-    gap: .5rem;
-    margin-top: 1rem;
+  display: flex;
+  gap: .5rem;
+  margin-top: 1rem;
 }
 
 .form-actions button {
-    flex: 1; /* Равная ширина */
-    width: auto;
+  flex: 1;
+  width: auto;
+}
+
+/* Модалка */
+dialog::backdrop {
+  background: rgba(0,0,0,0.5);
+}
+
+#contactDialog {
+  border-radius: var(--radius);
+  border: 1px solid var(--color-muted);
+  box-shadow: var(--shadow);
+  max-width: 600px;
+  width: 90%;
+}
+
+/* 3.5 Медиа-контейнеры */
+.media {
+  aspect-ratio: 16/9;
+  width: min(100%, 960px);
+  margin-inline: auto;
+}
+
+.media iframe,
+.media video {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+/* 3.6 Герой-секция с фоном */
+.hero {
+  background:
+    linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15)),
+    url("../assets/fon1.jpg") center/cover no-repeat; /* Фон только для героя */
+  color: #fff;
+  padding: clamp(2rem, 6vw, 6rem) 1rem;
+  border-radius: var(--radius);
+  margin: var(--space-4) 0;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* 3.1 Шапка и навигация если убрать будет обычная навигация */
+.site-header {
+  background: rgba(255,255,255,0.9);
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.site-header__brand {
+  font-weight: bold;
+  color: var(--color-fg);
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+.site-nav__list {
+  display: flex;
+  gap: var(--space-3);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.site-nav__link {
+  color: var(--color-fg);
+  text-decoration: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.site-nav__link:hover,
+.site-nav__link:focus-visible {
+  background: var(--color-primary);
+  color: white;
+  outline: none;
+}
+
+.site-nav__link--cta {
+  background: var(--color-primary);
+  color: white;
+}
+
+.site-nav__link--cta:hover {
+  background: var(--color-muted);
+}
+
+.site-nav__link[aria-current="page"] {
+  background: var(--color-muted);
+  color: white;
 }
